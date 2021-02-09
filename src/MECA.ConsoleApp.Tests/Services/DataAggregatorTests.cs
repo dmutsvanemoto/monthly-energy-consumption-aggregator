@@ -16,6 +16,8 @@ namespace MECA.ConsoleApp.Tests.Services
 
             var aggregator = new DataAggregatorService(fileLoader);
 
+            await aggregator.Aggregate();
+
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await aggregator.Aggregate());
         }
     }
