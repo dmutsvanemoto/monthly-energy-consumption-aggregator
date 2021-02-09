@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FluentAssertions;
 using MECA.ConsoleApp.Models;
 using MECA.ConsoleApp.Services;
 using Moq;
@@ -18,12 +19,14 @@ namespace MECA.ConsoleApp.Tests.Services
                 .LocateFile(Constants.IncomingFolder) == Task.FromResult(null as string));
 
             var aggregator = new DataAggregatorService(fileLoader);
-            
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await aggregator.Aggregate());
+
+            Func<Task> act = async () => await aggregator.Aggregate();
+
+            await act.Should()
+                .ThrowAsync<InvalidOperationException>()
+                .WithMessage($"*{Constants.MissingFileMessage}");
         }
-
-
-
+        
         [Fact]
         public async Task WhenWeReadFileFromLocationWithNoDataThenExceptionIsThrown()
         {
@@ -35,8 +38,12 @@ namespace MECA.ConsoleApp.Tests.Services
                 && x.ReadFile(filePath) == Task.FromResult<IEnumerable<ConsumptionData>>(null));
 
             var aggregator = new DataAggregatorService(fileLoader);
-            
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await aggregator.Aggregate());
+
+            Func<Task> act = async () => await aggregator.Aggregate();
+
+            await act.Should()
+                .ThrowAsync<InvalidOperationException>()
+                .WithMessage($"*{Constants.NoDataToProcessMessage}");
         }
     }
 }
