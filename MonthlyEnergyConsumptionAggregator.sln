@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MECA.ConsoleApp", "src\MECA.ConsoleApp\MECA.ConsoleApp.csproj", "{B2971C3A-414D-4DD2-BD3C-9A8A0D7DE742}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MECA.ConsoleApp.Tests", "src\MECA.ConsoleApp.Tests\MECA.ConsoleApp.Tests.csproj", "{5B9CEA84-25B3-459E-8057-CD7AF0FE4563}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B2971C3A-414D-4DD2-BD3C-9A8A0D7DE742}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2971C3A-414D-4DD2-BD3C-9A8A0D7DE742}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2971C3A-414D-4DD2-BD3C-9A8A0D7DE742}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2971C3A-414D-4DD2-BD3C-9A8A0D7DE742}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B9CEA84-25B3-459E-8057-CD7AF0FE4563}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B9CEA84-25B3-459E-8057-CD7AF0FE4563}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B9CEA84-25B3-459E-8057-CD7AF0FE4563}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B9CEA84-25B3-459E-8057-CD7AF0FE4563}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B885D9A4-E0EE-4BFF-A391-41FAB2943D70}
+	EndGlobalSection
+EndGlobal
