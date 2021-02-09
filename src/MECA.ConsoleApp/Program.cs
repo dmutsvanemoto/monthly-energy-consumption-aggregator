@@ -1,12 +1,15 @@
-﻿using System;
+﻿using System.Threading.Tasks;
+using MECA.ConsoleApp.Services;
 
 namespace MECA.ConsoleApp
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            throw new NotImplementedException();
+            var aggregator = new DataAggregatorService(new FileLoadService());
+
+            await aggregator.Aggregate();
         }
     }
 }

@@ -1,6 +1,6 @@
 using System;
+using System.Threading.Tasks;
 using Xunit;
-using MECA.ConsoleApp;
 
 namespace MECA.ConsoleApp.Tests
 {
@@ -9,9 +9,9 @@ namespace MECA.ConsoleApp.Tests
         public class WhenWeLoadTheFile
         {
             [Fact]
-            public void ThenNoErrorIsThrown()
+            public async Task ThenNoErrorIsThrown()
             {
-                Program.Main(new [] {"arg1"});
+                await Program.Main(new [] {"arg1"});
             }
         }
     }
