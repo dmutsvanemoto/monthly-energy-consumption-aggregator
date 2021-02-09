@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using MECA.ConsoleApp.Models;
 using MECA.ConsoleApp.Services;
 using Moq;
 using Xunit;
@@ -12,13 +15,28 @@ namespace MECA.ConsoleApp.Tests.Services
         public async Task WhenWeCantLocateFileThenErrorIsThrown()
         {
             var fileLoader = Mock.Of<IFileLoaderService>(x => x
-                .LocateFile(Constants.IncomingFolder) == null);
+                .LocateFile(Constants.IncomingFolder) == Task.FromResult(null as string));
 
             var aggregator = new DataAggregatorService(fileLoader);
+            
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await aggregator.Aggregate());
+        }
 
-            await aggregator.Aggregate();
 
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await aggregator.Aggregate());
+
+        [Fact]
+        public async Task WhenWeReadFileFromLocationWithNoDataThenExceptionIsThrown()
+        {
+            var filename = "some_file.csv";
+            var filePath = $"{Constants.IncomingFolder}/{filename}";
+
+            var fileLoader = Mock.Of<IFileLoaderService>(x => 
+                x.LocateFile(Constants.IncomingFolder) == Task.FromResult(filePath)
+                && x.ReadFile(filePath) == Task.FromResult<IEnumerable<ConsumptionData>>(null));
+
+            var aggregator = new DataAggregatorService(fileLoader);
+            
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await aggregator.Aggregate());
         }
     }
 }

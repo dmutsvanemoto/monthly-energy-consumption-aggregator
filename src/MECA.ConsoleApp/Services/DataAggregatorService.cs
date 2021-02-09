@@ -20,6 +20,13 @@ namespace MECA.ConsoleApp.Services
             {
                 throw new InvalidOperationException(Constants.MissingFileMessage);
             }
+
+            var consumptionData = await _fileLoaderService.ReadFile(fileLocation);
+
+            if (consumptionData == null)
+            {
+                throw new InvalidOperationException(Constants.NoDataToProcessMessage);
+            }
         }
     }
 }
