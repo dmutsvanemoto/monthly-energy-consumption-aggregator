@@ -23,9 +23,36 @@ namespace MECA.ConsoleApp.Services
             return new ValueTask<string>(filePath);
         }
 
-        public Task<IList<ConsumptionData>> ReadFile(string filePath)
+        public async Task<IList<ConsumptionData>> ReadFile(string filePath)
         {
-            throw new NotImplementedException();
+            var results = new List<ConsumptionData>();
+            
+            using TextReader file = new StreamReader(Path.GetFullPath(filePath));
+
+            var row = await file.ReadLineAsync();
+
+            while (row != null)
+            {
+                if (row.StartsWith("date"))
+                {
+                    row = await file.ReadLineAsync();
+                    continue;
+                }
+
+                var columns = row.Split(",");
+
+                var consumption = new ConsumptionData
+                {
+                    Date = DateTime.Parse(columns[0]),
+                    Consumption = int.Parse(columns[1])
+                };
+
+                results.Add(consumption);
+
+                row = await file.ReadLineAsync();
+            }
+            
+            return results;
         }
 
         public Task WriteToFile(Dictionary<string, int> aggregatedData)
