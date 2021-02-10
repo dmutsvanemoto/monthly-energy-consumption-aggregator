@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using MECA.ConsoleApp.Constants;
 using MECA.ConsoleApp.Models;
 
 namespace MECA.ConsoleApp.Services
@@ -59,7 +60,7 @@ namespace MECA.ConsoleApp.Services
         {
             if (aggregatedData == null || !aggregatedData.Keys.Any())
             {
-                throw new ArgumentNullException(Constants.AggregatedDataIsRequired);
+                throw new ArgumentNullException(ErrorMessageConstants.AggregatedDataIsRequired);
             }
 
             if (string.IsNullOrWhiteSpace(folderName))
@@ -69,7 +70,7 @@ namespace MECA.ConsoleApp.Services
 
             if (!Directory.Exists(folderName))
             {
-                throw new InvalidOperationException(Constants.OutputFolderDoesNotExist);
+                throw new InvalidOperationException(ErrorMessageConstants.OutputFolderDoesNotExist);
             }
 
             // TODO: Create method to generate rows using aggregatedData

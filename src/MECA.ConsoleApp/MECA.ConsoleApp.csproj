@@ -5,4 +5,13 @@
     <TargetFramework>net5</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Update="data\input\consumption-data.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="data\output\blank.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

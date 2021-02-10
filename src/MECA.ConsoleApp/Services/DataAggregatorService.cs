@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MECA.ConsoleApp.Constants;
 
 namespace MECA.ConsoleApp.Services
 {
@@ -16,23 +17,23 @@ namespace MECA.ConsoleApp.Services
 
         public async Task Aggregate()
         {
-            var fileLocation = await _fileService.LocateFile(Constants.IncomingFolder);
+            var fileLocation = await _fileService.LocateFile(FolderConstants.InputFolder);
 
             if (string.IsNullOrWhiteSpace(fileLocation))
             {
-                throw new InvalidOperationException(Constants.MissingFileMessage);
+                throw new InvalidOperationException(ErrorMessageConstants.MissingFileMessage);
             }
 
             var consumptionData = await _fileService.ReadFile(fileLocation);
 
             if (consumptionData == null)
             {
-                throw new InvalidOperationException(Constants.NoDataToProcessMessage);
+                throw new InvalidOperationException(ErrorMessageConstants.NoDataToProcessMessage);
             }
             
             var aggregatedData = await _monthlyAggregatorService.Aggregate(consumptionData);
 
-            await _fileService.WriteToFile(aggregatedData, Constants.AggregatesFolder);
+            await _fileService.WriteToFile(aggregatedData, FolderConstants.OutputFolder);
         }
     }
 }

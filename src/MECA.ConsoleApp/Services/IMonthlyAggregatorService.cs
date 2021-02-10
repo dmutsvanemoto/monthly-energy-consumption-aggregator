@@ -6,6 +6,6 @@ namespace MECA.ConsoleApp.Services
 {
     public interface IMonthlyAggregatorService
     {
-        Task<Dictionary<string, int>> Aggregate(IEnumerable<ConsumptionData> consumptionData);
+        Task<Dictionary<string, int>> Aggregate(IList<ConsumptionData> consumptionData);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using FluentAssertions;
+using MECA.ConsoleApp.Constants;
 using MECA.ConsoleApp.Models;
 using MECA.ConsoleApp.Services;
 using Xunit;
@@ -30,7 +31,7 @@ namespace MECA.ConsoleApp.Tests.Services
             new TheoryData<string>
             {
                 { "UnexpectedFolderName" },
-                { @$"TestData\{Constants.IncomingFolder}\unexpected" }
+                { @$"TestData\{FolderConstants.InputFolder}\unexpected" }
             };
 
         [Theory]
@@ -51,8 +52,8 @@ namespace MECA.ConsoleApp.Tests.Services
         {
             var service = new FileService();
 
-            var expectedFilePath = @"TestData\incoming\consumption-data.csv";
-            var actualFilePath = await service.LocateFile(@$"TestData\{Constants.IncomingFolder}");
+            var expectedFilePath = @"TestData\data\input\consumption-data.csv";
+            var actualFilePath = await service.LocateFile(@$"TestData\{FolderConstants.InputFolder}");
 
             actualFilePath.Should().Be(expectedFilePath);
         }
@@ -61,7 +62,7 @@ namespace MECA.ConsoleApp.Tests.Services
         public async Task GivenAFilePathThenReturnStructuredData()
         {
             var service = new FileService();
-            var filePath = await service.LocateFile(@$"TestData\{Constants.IncomingFolder}");
+            var filePath = await service.LocateFile(@$"TestData\{FolderConstants.InputFolder}");
 
             var expected = new List<ConsumptionData>
             {
@@ -97,7 +98,7 @@ namespace MECA.ConsoleApp.Tests.Services
 
             await act.Should()
                 .ThrowAsync<ArgumentNullException>()
-                .WithMessage($"*{Constants.AggregatedDataIsRequired}*");
+                .WithMessage($"*{ErrorMessageConstants.AggregatedDataIsRequired}*");
         }
 
         [Theory]
@@ -120,7 +121,7 @@ namespace MECA.ConsoleApp.Tests.Services
             new TheoryData<string>
             {
                 { "UnexpectedFolderName" },
-                { @$"TestData\{Constants.AggregatesFolder}\unexpected" }
+                { @$"TestData\{FolderConstants.OutputFolder}\unexpected" }
             };
 
         [Theory]
@@ -134,7 +135,7 @@ namespace MECA.ConsoleApp.Tests.Services
 
             await act.Should()
                 .ThrowAsync<InvalidOperationException>()
-                .WithMessage(Constants.OutputFolderDoesNotExist);
+                .WithMessage(ErrorMessageConstants.OutputFolderDoesNotExist);
         }
 
         [Fact]
@@ -144,7 +145,7 @@ namespace MECA.ConsoleApp.Tests.Services
 
             var data = new Dictionary<string, int> {{"2015 Jan", 27}};
 
-            var aggregatesPath = @$"TestData\{Constants.AggregatesFolder}";
+            var aggregatesPath = @$"TestData\{FolderConstants.OutputFolder}";
 
             await service.WriteToFile(data, aggregatesPath);
 
