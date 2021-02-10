@@ -14,16 +14,18 @@ namespace MECA.ConsoleApp.Services
             {
                 throw new ArgumentNullException(nameof(consumptionData));
             }
-
-            // TODO: Group By Month Year
-
-            var grouped = consumptionData.GroupBy(x => x.Date.ToString("MMM yyyy")).ToList();
-
-            // TODO: ForEach Month Year Grab recent consumption
+            var grouped = consumptionData
+                .GroupBy(x => x.Date.ToString("MMM yyyy"))
+                .ToList();
+            
             var items = new Dictionary<string, int>();
             foreach (var group in grouped)
             {
-                var recent = group.OrderByDescending(x => x.Date).Select(x => x.Consumption).FirstOrDefault();
+                var recent = group
+                    .OrderByDescending(x => x.Date)
+                    .Select(x => x.Consumption)
+                    .FirstOrDefault();
+
                 items.Add(group.Key, recent);
             }
 
