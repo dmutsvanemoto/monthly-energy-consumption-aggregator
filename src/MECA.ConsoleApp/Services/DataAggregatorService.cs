@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MECA.ConsoleApp.Services
@@ -6,10 +7,12 @@ namespace MECA.ConsoleApp.Services
     public class DataAggregatorService
     {
         private readonly IFileLoaderService _fileLoaderService;
+        private readonly IMonthlyAggregatorService _monthlyAggregatorService;
 
-        public DataAggregatorService(IFileLoaderService fileLoaderService)
+        public DataAggregatorService(IFileLoaderService fileLoaderService, IMonthlyAggregatorService monthlyAggregatorService)
         {
             _fileLoaderService = fileLoaderService;
+            _monthlyAggregatorService = monthlyAggregatorService;
         }
 
         public async Task Aggregate()
@@ -27,6 +30,10 @@ namespace MECA.ConsoleApp.Services
             {
                 throw new InvalidOperationException(Constants.NoDataToProcessMessage);
             }
+            
+            var aggregatedData = await _monthlyAggregatorService.Aggregate(consumptionData);
+
+            await _fileLoaderService.WriteToFile(aggregatedData);
         }
     }
 }

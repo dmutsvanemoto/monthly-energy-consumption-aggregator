@@ -12,7 +12,12 @@ namespace MECA.ConsoleApp.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<ConsumptionData>> ReadFile(string filePath)
+        public Task<IList<ConsumptionData>> ReadFile(string filePath)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task WriteToFile(Dictionary<string, int> aggregatedData)
         {
             throw new NotImplementedException();
         }
