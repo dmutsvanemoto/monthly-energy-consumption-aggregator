@@ -6,7 +6,7 @@ namespace MECA.ConsoleApp.Services
 {
     public interface IFileService
     {
-        Task<string> LocateFile(string folderName);
+        ValueTask<string> LocateFile(string folderName);
         Task<IList<ConsumptionData>> ReadFile(string filePath);
         Task WriteToFile(Dictionary<string, int> aggregatedData);
     }

@@ -17,7 +17,7 @@ namespace MECA.ConsoleApp.Tests.Services
         {
             var monthlyAggregator = Mock.Of<IMonthlyAggregatorService>();
             var fileLoader = Mock.Of<IFileService>(x => x
-                .LocateFile(Constants.IncomingFolder) == Task.FromResult(null as string));
+                .LocateFile(Constants.IncomingFolder) == ValueTask.FromResult(null as string));
 
             var aggregator = new DataAggregatorService(fileLoader, monthlyAggregator);
 
@@ -36,7 +36,7 @@ namespace MECA.ConsoleApp.Tests.Services
 
             var monthlyAggregator = Mock.Of<IMonthlyAggregatorService>();
             var fileLoader = Mock.Of<IFileService>(x =>
-                x.LocateFile(Constants.IncomingFolder) == Task.FromResult(filePath)
+                x.LocateFile(Constants.IncomingFolder) == ValueTask.FromResult(filePath)
                 && x.ReadFile(filePath) == Task.FromResult<IList<ConsumptionData>>(null));
 
             var aggregator = new DataAggregatorService(fileLoader, monthlyAggregator);
@@ -64,7 +64,7 @@ namespace MECA.ConsoleApp.Tests.Services
                 .Aggregate(data) == Task.FromResult(formattedData));
             
             var fileLoader = Mock.Of<IFileService>(x =>
-                x.LocateFile(Constants.IncomingFolder) == Task.FromResult(filePath)
+                x.LocateFile(Constants.IncomingFolder) == ValueTask.FromResult(filePath)
                 && x.ReadFile(filePath) == Task.FromResult<IList<ConsumptionData>>(data)
                 && x.WriteToFile(formattedData) == Task.CompletedTask);
             
