@@ -79,5 +79,78 @@ namespace MECA.ConsoleApp.Tests.Services
         // TODO: When FilePath is invalid then ReadFile should explode
         // TODO: When File data is invalid(unexpected format) then ReadFile should explode for date and or consumption
         // TODO: When File columns don't start with date then ReadFile should explode for date and or consumption
+
+        public static TheoryData<Dictionary<string, int>> WriteToFileAggregatedTheoryData =>
+            new TheoryData<Dictionary<string, int>>
+            {
+                { null },
+                { new Dictionary<string, int>() }
+            };
+
+        [Theory]
+        [MemberData(nameof(WriteToFileAggregatedTheoryData))]
+        public async Task WriteToFile_GivenEmptyDataThenThrowException(Dictionary<string, int> data)
+        {
+            var service = new FileService();
+
+            Func<Task> act = async () => await service.WriteToFile(data, null as string);
+
+            await act.Should()
+                .ThrowAsync<ArgumentNullException>()
+                .WithMessage($"*{Constants.AggregatedDataIsRequired}*");
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        public async Task WriteToFile_GivenAnInvalidFolderNameThenThrowArgumentNullException(string folderName)
+        {
+            var service = new FileService();
+            var data = new Dictionary<string, int> { { "2015 Jan", 27 } };
+
+            Func<Task> act = async () => await service.WriteToFile(data, folderName);
+
+            await act.Should()
+                .ThrowAsync<ArgumentNullException>()
+                .WithMessage("*folderName*");
+        }
+
+
+        public static TheoryData<string> WriteToFileFolderNameTheoryData =>
+            new TheoryData<string>
+            {
+                { "UnexpectedFolderName" },
+                { @$"TestData\{Constants.AggregatesFolder}\unexpected" }
+            };
+
+        [Theory]
+        [MemberData(nameof(WriteToFileFolderNameTheoryData))]
+        public async Task WriteToFile_GivenAnNonExistentFolderNameThenThrowArgumentNullException(string folderName)
+        {
+            var service = new FileService();
+            var data = new Dictionary<string, int> { { "2015 Jan", 27 } };
+
+            Func<Task> act = async () => await service.WriteToFile(data, folderName);
+
+            await act.Should()
+                .ThrowAsync<InvalidOperationException>()
+                .WithMessage(Constants.OutputFolderDoesNotExist);
+        }
+
+        [Fact]
+        public async Task WriteToFile_GivenAggregatedDataThenWriteToFile()
+        {
+            var service = new FileService();
+
+            var data = new Dictionary<string, int> {{"2015 Jan", 27}};
+
+            var aggregatesPath = @$"TestData\{Constants.AggregatesFolder}";
+
+            await service.WriteToFile(data, aggregatesPath);
+
+            var fileExists = File.Exists(@$"{aggregatesPath}\consumption-output.csv");
+
+            fileExists.Should().BeTrue();
+        }
     }
 }

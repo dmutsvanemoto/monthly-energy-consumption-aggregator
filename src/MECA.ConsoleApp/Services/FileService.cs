@@ -55,9 +55,40 @@ namespace MECA.ConsoleApp.Services
             return results;
         }
 
-        public Task WriteToFile(Dictionary<string, int> aggregatedData)
+        public async Task WriteToFile(Dictionary<string, int> aggregatedData, string folderName)
         {
-            throw new NotImplementedException();
+            if (aggregatedData == null || !aggregatedData.Keys.Any())
+            {
+                throw new ArgumentNullException(Constants.AggregatedDataIsRequired);
+            }
+
+            if (string.IsNullOrWhiteSpace(folderName))
+            {
+                throw new ArgumentNullException(nameof(folderName));
+            }
+
+            if (!Directory.Exists(folderName))
+            {
+                throw new InvalidOperationException(Constants.OutputFolderDoesNotExist);
+            }
+
+            // TODO: Create method to generate rows using aggregatedData
+            var rows = new List<string> { "Month Year, Consumption" };
+            foreach (var (key, value) in aggregatedData)
+            {
+                var row = $"{key}, {value}";
+                rows.Add(row);
+            }
+            
+            var path = @$"{folderName}\consumption-output.csv";
+
+            // TODO: Create method for deleting file if it exists
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            await File.WriteAllLinesAsync(path, rows);
         }
     }
 }

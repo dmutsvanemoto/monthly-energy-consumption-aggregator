@@ -8,6 +8,6 @@ namespace MECA.ConsoleApp.Services
     {
         ValueTask<string> LocateFile(string folderName);
         Task<IList<ConsumptionData>> ReadFile(string filePath);
-        Task WriteToFile(Dictionary<string, int> aggregatedData);
+        Task WriteToFile(Dictionary<string, int> aggregatedData, string folderName);
     }
 }

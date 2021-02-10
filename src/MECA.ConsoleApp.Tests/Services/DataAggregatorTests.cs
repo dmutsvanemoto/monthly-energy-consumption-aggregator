@@ -66,7 +66,7 @@ namespace MECA.ConsoleApp.Tests.Services
             var fileLoader = Mock.Of<IFileService>(x =>
                 x.LocateFile(Constants.IncomingFolder) == ValueTask.FromResult(filePath)
                 && x.ReadFile(filePath) == Task.FromResult<IList<ConsumptionData>>(data)
-                && x.WriteToFile(formattedData) == Task.CompletedTask);
+                && x.WriteToFile(formattedData, Constants.AggregatesFolder) == Task.CompletedTask);
             
             var aggregator = new DataAggregatorService(fileLoader, monthlyAggregator);
 

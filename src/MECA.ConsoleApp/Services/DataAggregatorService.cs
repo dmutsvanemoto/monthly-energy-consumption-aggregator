@@ -32,7 +32,7 @@ namespace MECA.ConsoleApp.Services
             
             var aggregatedData = await _monthlyAggregatorService.Aggregate(consumptionData);
 
-            await _fileService.WriteToFile(aggregatedData);
+            await _fileService.WriteToFile(aggregatedData, Constants.AggregatesFolder);
         }
     }
 }
