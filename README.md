@@ -26,7 +26,7 @@ The aim of this console app is to consume a `consumption-data.csv` file located 
 
 ## To Run
 
-- Install [.Net 5 SDK]();
+- Install [.Net 5 SDK](https://dotnet.microsoft.com/download/dotnet/5.0);
 
 - Run `dotnet build`
 - Run `dotnet run --project ./src/MECA.ConsoleApp/MECA.ConsoleApp.csproj`
