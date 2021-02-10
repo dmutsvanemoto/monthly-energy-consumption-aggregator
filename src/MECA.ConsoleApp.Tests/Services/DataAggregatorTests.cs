@@ -16,7 +16,7 @@ namespace MECA.ConsoleApp.Tests.Services
         public async Task WhenWeCantLocateFileThenErrorIsThrown()
         {
             var monthlyAggregator = Mock.Of<IMonthlyAggregatorService>();
-            var fileLoader = Mock.Of<IFileLoaderService>(x => x
+            var fileLoader = Mock.Of<IFileService>(x => x
                 .LocateFile(Constants.IncomingFolder) == Task.FromResult(null as string));
 
             var aggregator = new DataAggregatorService(fileLoader, monthlyAggregator);
@@ -35,7 +35,7 @@ namespace MECA.ConsoleApp.Tests.Services
             var filePath = $"{Constants.IncomingFolder}/{filename}";
 
             var monthlyAggregator = Mock.Of<IMonthlyAggregatorService>();
-            var fileLoader = Mock.Of<IFileLoaderService>(x =>
+            var fileLoader = Mock.Of<IFileService>(x =>
                 x.LocateFile(Constants.IncomingFolder) == Task.FromResult(filePath)
                 && x.ReadFile(filePath) == Task.FromResult<IList<ConsumptionData>>(null));
 
@@ -63,7 +63,7 @@ namespace MECA.ConsoleApp.Tests.Services
             var monthlyAggregator = Mock.Of<IMonthlyAggregatorService>(x => x
                 .Aggregate(data) == Task.FromResult(formattedData));
             
-            var fileLoader = Mock.Of<IFileLoaderService>(x =>
+            var fileLoader = Mock.Of<IFileService>(x =>
                 x.LocateFile(Constants.IncomingFolder) == Task.FromResult(filePath)
                 && x.ReadFile(filePath) == Task.FromResult<IList<ConsumptionData>>(data)
                 && x.WriteToFile(formattedData) == Task.CompletedTask);

@@ -7,7 +7,7 @@ namespace MECA.ConsoleApp
     {
         public static async Task Main(string[] args)
         {
-            var aggregator = new DataAggregatorService(new FileLoadService(), new MonthlyAggregatorService());
+            var aggregator = new DataAggregatorService(new FileService(), new MonthlyAggregatorService());
 
             await aggregator.Aggregate();
         }

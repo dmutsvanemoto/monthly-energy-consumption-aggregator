@@ -1,30 +1,29 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MECA.ConsoleApp.Services
 {
     public class DataAggregatorService
     {
-        private readonly IFileLoaderService _fileLoaderService;
+        private readonly IFileService _fileService;
         private readonly IMonthlyAggregatorService _monthlyAggregatorService;
 
-        public DataAggregatorService(IFileLoaderService fileLoaderService, IMonthlyAggregatorService monthlyAggregatorService)
+        public DataAggregatorService(IFileService fileService, IMonthlyAggregatorService monthlyAggregatorService)
         {
-            _fileLoaderService = fileLoaderService;
+            _fileService = fileService;
             _monthlyAggregatorService = monthlyAggregatorService;
         }
 
         public async Task Aggregate()
         {
-            var fileLocation = await _fileLoaderService.LocateFile(Constants.IncomingFolder);
+            var fileLocation = await _fileService.LocateFile(Constants.IncomingFolder);
 
             if (string.IsNullOrWhiteSpace(fileLocation))
             {
                 throw new InvalidOperationException(Constants.MissingFileMessage);
             }
 
-            var consumptionData = await _fileLoaderService.ReadFile(fileLocation);
+            var consumptionData = await _fileService.ReadFile(fileLocation);
 
             if (consumptionData == null)
             {
@@ -33,7 +32,7 @@ namespace MECA.ConsoleApp.Services
             
             var aggregatedData = await _monthlyAggregatorService.Aggregate(consumptionData);
 
-            await _fileLoaderService.WriteToFile(aggregatedData);
+            await _fileService.WriteToFile(aggregatedData);
         }
     }
 }

@@ -5,7 +5,7 @@ using MECA.ConsoleApp.Models;
 
 namespace MECA.ConsoleApp.Services
 {
-    public class FileLoadService : IFileLoaderService
+    public class FileService : IFileService
     {
         public Task<string> LocateFile(string folderName)
         {
